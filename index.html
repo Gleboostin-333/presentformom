@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Спасибо, мама</title>
+  <style>
+    :root {
+      --paper: #fffaf4;
+      --ink: #27221f;
+      --muted: #736a62;
+      --rose: #d86f79;
+      --green: #557c6a;
+      --blue: #3d6c8f;
+      --gold: #c8963e;
+      --line: #e7ddd0;
+      --white: #ffffff;
+      --shadow: rgba(60, 43, 29, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 8% 10%, rgba(216, 111, 121, 0.15), transparent 24rem),
+        radial-gradient(circle at 92% 14%, rgba(61, 108, 143, 0.12), transparent 26rem),
+        linear-gradient(180deg, #fffaf4 0%, #f8efe6 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .page {
+      width: min(1280px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    .mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 18px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.78fr) minmax(520px, 1.22fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: clamp(28px, 5vw, 72px) 0 28px;
+    }
+
+    .kicker {
+      color: var(--rose);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 12ch;
+      margin: 12px 0 14px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(48px, 7vw, 92px);
+      line-height: 0.9;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 520px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.55;
+    }
+
+    .signature {
+      width: fit-content;
+      margin-top: 28px;
+      padding: 13px 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-style: italic;
+    }
+
+    .photo-count {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      max-width: 520px;
+      margin-top: 22px;
+    }
+
+    .photo-count span {
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .intro,
+    .collage,
+    .section {
+      animation: fade-up 700ms ease both;
+    }
+
+    .collage {
+      min-height: 760px;
+      display: grid;
+      grid-auto-flow: dense;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      grid-auto-rows: minmax(78px, 1fr);
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.66);
+      box-shadow: 0 24px 70px var(--shadow);
+      animation-delay: 120ms;
+    }
+
+    .section {
+      margin-top: 36px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section:nth-of-type(2) {
+      animation-delay: 180ms;
+    }
+
+    .section:nth-of-type(3) {
+      animation-delay: 260ms;
+    }
+
+    .section:nth-of-type(4) {
+      animation-delay: 340ms;
+    }
+
+    .section:nth-of-type(5) {
+      animation-delay: 420ms;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .note {
+      max-width: 450px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .photo,
+    .memory,
+    .family-shot,
+    .closing-photo {
+      position: relative;
+      display: grid;
+      min-height: 86px;
+      overflow: hidden;
+      border: 1px solid rgba(39, 34, 31, 0.11);
+      border-radius: 8px;
+      background: #eadfd4;
+      color: var(--white);
+      text-decoration: none;
+      isolation: isolate;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+
+    .photo::after,
+    .memory::after,
+    .family-shot::after,
+    .closing-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, transparent 42%, rgba(20, 16, 13, 0.66) 100%);
+      pointer-events: none;
+    }
+
+    .photo img,
+    .memory img,
+    .family-shot img,
+    .closing-photo img {
+      grid-area: 1 / 1;
+      transition: transform 320ms ease, filter 320ms ease;
+    }
+
+    .photo span,
+    .memory span,
+    .family-shot span,
+    .closing-photo span {
+      position: relative;
+      z-index: 2;
+      grid-area: 1 / 1;
+      align-self: end;
+      padding: 12px;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.25;
+      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .photo small,
+    .family-shot small,
+    .closing-photo small {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .photo:hover,
+    .memory:hover,
+    .family-shot:hover,
+    .closing-photo:hover {
+      border-color: rgba(39, 34, 31, 0.24);
+      box-shadow: 0 14px 32px rgba(60, 43, 29, 0.16);
+      transform: translateY(-3px);
+    }
+
+    .photo:hover img,
+    .memory:hover img,
+    .family-shot:hover img,
+    .closing-photo:hover img {
+      filter: saturate(1.06) contrast(1.02);
+      transform: scale(1.045);
+    }
+
+    .main-photo {
+      grid-column: span 4;
+      grid-row: span 3;
+    }
+
+    .main-photo::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.34), transparent 58%);
+      transform: translateX(-120%);
+      animation: photo-glow 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .feature-photo {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .wide-photo {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    .tiny-photo {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .memory {
+      min-height: 132px;
+    }
+
+    .family-wall {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-auto-rows: minmax(96px, auto);
+      gap: 10px;
+    }
+
+    .family-shot {
+      min-height: 190px;
+    }
+
+    .family-shot.big {
+      grid-column: span 6;
+      grid-row: span 2;
+      min-height: 300px;
+    }
+
+    .family-shot.medium {
+      grid-column: span 3;
+      grid-row: span 2;
+    }
+
+    .family-shot.wide {
+      grid-column: span 4;
+    }
+
+    .letter {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .paper {
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 18px 40px rgba(60, 43, 29, 0.08);
+    }
+
+    .paper p {
+      margin: 0 0 14px;
+      color: #4a4038;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .paper p:last-child {
+      margin-bottom: 0;
+    }
+
+    .superpowers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .power {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      font-weight: 800;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--color);
+    }
+
+    .ending {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.5fr);
+      gap: 22px;
+      align-items: stretch;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 250, 244, 0.36)),
+        #f6eadf;
+    }
+
+    .ending h2 {
+      margin-bottom: 12px;
+    }
+
+    .ending p {
+      max-width: 760px;
+      margin: 0;
+      color: #4a4038;
+      font-size: 19px;
+      line-height: 1.65;
+    }
+
+    .closing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .closing-photo {
+      min-height: 150px;
+    }
+
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 32px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes photo-glow {
+      0%,
+      55% {
+        transform: translateX(-120%);
+      }
+
+      78%,
+      100% {
+        transform: translateX(120%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 1ms !important;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .letter,
+      .ending {
+        grid-template-columns: 1fr;
+      }
+
+      .intro {
+        padding: 12px 0 0;
+      }
+
+      h1 {
+        max-width: none;
+      }
+
+      .collage {
+        min-height: 560px;
+      }
+
+      .memory-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .family-wall {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .family-shot.big,
+      .family-shot.medium,
+      .family-shot.wide {
+        grid-column: span 3;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        width: min(100% - 20px, 1180px);
+        padding-top: 18px;
+      }
+
+      .topbar,
+      .section-head,
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .collage {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: none;
+        min-height: 0;
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .photo,
+      .main-photo,
+      .photo:nth-child(n) {
+        grid-column: span 1;
+        grid-row: span 1;
+        aspect-ratio: 1;
+      }
+
+      .main-photo {
+        grid-column: span 2;
+        aspect-ratio: 1.25;
+      }
+
+      .paper {
+        padding: 22px;
+      }
+
+      .memory-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .memory {
+        min-height: 116px;
+      }
+
+      .family-wall {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .family-shot,
+      .family-shot.big,
+      .family-shot.medium,
+      .family-shot.wide {
+        grid-column: span 1;
+        min-height: 150px;
+      }
+
+      .family-shot.big {
+        grid-column: span 2;
+        min-height: 210px;
+      }
+
+      .ending {
+        padding: 18px;
+      }
+
+      .photo-count {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand"><span class="mark">М</span><span>Сайт-подарок для мамы</span></div>
+      <div>56 семейных фотографий, письмо и теплые моменты</div>
+    </header>
+
+    <section class="hero">
+      <div class="intro">
+        <div class="kicker">С любовью</div>
+        <h1>Спасибо, мама</h1>
+        <p class="lead">Маленький сайт-открытка: мама в центре большой семейной истории, рядом муж, дочь, сын и самые теплые моменты.</p>
+        <div class="photo-count" aria-label="План размещения 56 фотографий">
+          <span>18 фото — главный коллаж</span>
+          <span>10 фото — все вместе</span>
+          <span>24 фото — семейная лента</span>
+          <span>4 фото — финальный экран</span>
+        </div>
+        <div class="signature">от твоего сына</div>
+      </div>
+
+      <div class="collage" aria-label="Главный фотоколлаж">
+        <a class="photo main-photo" href="assets/photos/IMG_0003.jpg" target="_blank" rel="noopener" aria-label="Открыть главное фото мамы">
+          <img src="assets/photos/IMG_0003.jpg" alt="Главное фото мамы" loading="eager" decoding="async" fetchpriority="high">
+          <span>Главное фото мамы<small>самый теплый кадр</small></span>
+        </a>
+        <a class="photo feature-photo" href="assets/photos/IMG_0004.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 2">
+          <img src="assets/photos/IMG_0004.jpg" alt="Семейное фото 2" loading="eager" decoding="async">
+          <span>Рядом родные<small>семейный момент</small></span>
+        </a>
+        <a class="photo feature-photo" href="assets/photos/IMG_0005.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 3">
+          <img src="assets/photos/IMG_0005.jpg" alt="Семейное фото 3" loading="eager" decoding="async">
+          <span>Вместе<small>любимый день</small></span>
+        </a>
+        <a class="photo wide-photo" href="assets/photos/IMG_0006.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 4">
+          <img src="assets/photos/IMG_0006.jpg" alt="Семейное фото 4" loading="eager" decoding="async">
+          <span>Улыбки<small>живой кадр</small></span>
+        </a>
+        <a class="photo wide-photo" href="assets/photos/IMG_0007.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 5">
+          <img src="assets/photos/IMG_0007.jpg" alt="Семейное фото 5" loading="eager" decoding="async">
+          <span>Семья рядом<small>общее тепло</small></span>
+        </a>
+        <a class="photo feature-photo" href="assets/photos/IMG_0008.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 6">
+          <img src="assets/photos/IMG_0008.jpg" alt="Семейное фото 6" loading="lazy" decoding="async">
+          <span>Красивый момент<small>про маму</small></span>
+        </a>
+        <a class="photo feature-photo" href="assets/photos/IMG_0009.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 7">
+          <img src="assets/photos/IMG_0009.jpg" alt="Семейное фото 7" loading="lazy" decoding="async">
+          <span>Память о дне<small>солнечный кадр</small></span>
+        </a>
+        <a class="photo wide-photo" href="assets/photos/IMG_0010.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 8">
+          <img src="assets/photos/IMG_0010.jpg" alt="Семейное фото 8" loading="lazy" decoding="async">
+          <span>Прогулка<small>легкий момент</small></span>
+        </a>
+        <a class="photo wide-photo" href="assets/photos/IMG_0011.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 9">
+          <img src="assets/photos/IMG_0011.jpg" alt="Семейное фото 9" loading="lazy" decoding="async">
+          <span>Все вместе<small>радость рядом</small></span>
+        </a>
+        <a class="photo wide-photo" href="assets/photos/IMG_0012.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 10">
+          <img src="assets/photos/IMG_0012.jpg" alt="Семейное фото 10" loading="lazy" decoding="async">
+          <span>Море тепла<small>семейная история</small></span>
+        </a>
+        <a class="photo wide-photo" href="assets/photos/IMG_0013.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 11">
+          <img src="assets/photos/IMG_0013.jpg" alt="Семейное фото 11" loading="lazy" decoding="async">
+          <span>Объятия<small>самое родное</small></span>
+        </a>
+        <a class="photo tiny-photo" href="assets/photos/IMG_0015.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 12">
+          <img src="assets/photos/IMG_0015.jpg" alt="Семейное фото 12" loading="lazy" decoding="async">
+          <span>День</span>
+        </a>
+        <a class="photo tiny-photo" href="assets/photos/IMG_0016.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 13">
+          <img src="assets/photos/IMG_0016.jpg" alt="Семейное фото 13" loading="lazy" decoding="async">
+          <span>Смех</span>
+        </a>
+        <a class="photo tiny-photo" href="assets/photos/IMG_0017.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 14">
+          <img src="assets/photos/IMG_0017.jpg" alt="Семейное фото 14" loading="lazy" decoding="async">
+          <span>Свет</span>
+        </a>
+        <a class="photo tiny-photo" href="assets/photos/IMG_0020.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 15">
+          <img src="assets/photos/IMG_0020.jpg" alt="Семейное фото 15" loading="lazy" decoding="async">
+          <span>Нежность</span>
+        </a>
+        <a class="photo wide-photo" href="assets/photos/IMG_0021.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 16">
+          <img src="assets/photos/IMG_0021.jpg" alt="Семейное фото 16" loading="lazy" decoding="async">
+          <span>За поддержку<small>момент силы</small></span>
+        </a>
+        <a class="photo wide-photo" href="assets/photos/IMG_0022.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 17">
+          <img src="assets/photos/IMG_0022.jpg" alt="Семейное фото 17" loading="lazy" decoding="async">
+          <span>За веру<small>главная подпись от сына</small></span>
+        </a>
+        <a class="photo wide-photo" href="assets/photos/IMG_0023.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото 18">
+          <img src="assets/photos/IMG_0023.jpg" alt="Семейное фото 18" loading="lazy" decoding="async">
+          <span>Любимое фото<small>финальный акцент</small></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Все вместе</h2>
+        <p class="note">Большие семейные кадры: мама, муж, дочь, сын и моменты, где особенно чувствуется, как вы все рядом.</p>
+      </div>
+
+      <div class="family-wall" aria-label="Блок с общими семейными фотографиями">
+        <a class="family-shot big" href="assets/photos/IMG_0024.jpg" target="_blank" rel="noopener" aria-label="Открыть общее семейное фото">
+          <img src="assets/photos/IMG_0024.jpg" alt="Общее семейное фото" loading="lazy" decoding="async">
+          <span>Главное общее фото<small>семья рядом</small></span>
+        </a>
+        <a class="family-shot medium" href="assets/photos/IMG_0025.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото">
+          <img src="assets/photos/IMG_0025.jpg" alt="Семейное фото" loading="lazy" decoding="async">
+          <span>Теплый портрет<small>любимый совместный кадр</small></span>
+        </a>
+        <a class="family-shot medium" href="assets/photos/IMG_0027.jpg" target="_blank" rel="noopener" aria-label="Открыть фото с детьми">
+          <img src="assets/photos/IMG_0027.jpg" alt="Фото с детьми" loading="lazy" decoding="async">
+          <span>Мама и дети<small>дочь и сын рядом</small></span>
+        </a>
+        <a class="family-shot wide" href="assets/photos/IMG_0028.jpg" target="_blank" rel="noopener" aria-label="Открыть фото семейного праздника">
+          <img src="assets/photos/IMG_0028.jpg" alt="Фото семейного праздника" loading="lazy" decoding="async">
+          <span>Семейный праздник<small>кадр на память</small></span>
+        </a>
+        <a class="family-shot wide" href="assets/photos/IMG_0029.jpg" target="_blank" rel="noopener" aria-label="Открыть фото прогулки">
+          <img src="assets/photos/IMG_0029.jpg" alt="Фото прогулки" loading="lazy" decoding="async">
+          <span>Прогулка вместе<small>живой случайный кадр</small></span>
+        </a>
+        <a class="family-shot wide" href="assets/photos/IMG_0030.jpg" target="_blank" rel="noopener" aria-label="Открыть домашнее фото">
+          <img src="assets/photos/IMG_0030.jpg" alt="Домашнее семейное фото" loading="lazy" decoding="async">
+          <span>Домашнее тепло<small>уютный момент</small></span>
+        </a>
+        <a class="family-shot medium" href="assets/photos/IMG_0031.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото">
+          <img src="assets/photos/IMG_0031.jpg" alt="Семейное фото" loading="lazy" decoding="async">
+          <span>Родные рядом<small>дети рядом с мамой</small></span>
+        </a>
+        <a class="family-shot medium" href="assets/photos/IMG_0032.jpg" target="_blank" rel="noopener" aria-label="Открыть семейное фото">
+          <img src="assets/photos/IMG_0032.jpg" alt="Семейное фото" loading="lazy" decoding="async">
+          <span>Полный кадр<small>любовь и поддержка</small></span>
+        </a>
+        <a class="family-shot wide" href="assets/photos/IMG_0033.jpg" target="_blank" rel="noopener" aria-label="Открыть семейный портрет">
+          <img src="assets/photos/IMG_0033.jpg" alt="Семейный портрет" loading="lazy" decoding="async">
+          <span>Семейный портрет<small>красивое фото в рамку</small></span>
+        </a>
+        <a class="family-shot wide" href="assets/photos/IMG_0038.jpg" target="_blank" rel="noopener" aria-label="Открыть теплый общий кадр">
+          <img src="assets/photos/IMG_0038.jpg" alt="Теплый общий семейный кадр" loading="lazy" decoding="async">
+          <span>Самый теплый кадр<small>смех и объятия</small></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Семейная лента</h2>
+        <p class="note">Еще 24 фотографии, чтобы сайт ощущался как большой семейный альбом, а не как несколько выбранных кадров.</p>
+      </div>
+
+      <div class="memory-grid" aria-label="Дополнительные семейные фотографии">
+        <a class="memory" href="assets/photos/IMG_0039.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_0039.jpg" alt="Семейное фото 29" loading="lazy" decoding="async"><span>семейный момент</span></a>
+        <a class="memory" href="assets/photos/IMG_0040.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_0040.jpg" alt="Семейное фото 30" loading="lazy" decoding="async"><span>мама улыбается</span></a>
+        <a class="memory" href="assets/photos/IMG_0042.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_0042.jpg" alt="Семейное фото 31" loading="lazy" decoding="async"><span>родные рядом</span></a>
+        <a class="memory" href="assets/photos/IMG_3310.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_3310.jpg" alt="Семейное фото 32" loading="lazy" decoding="async"><span>вечер вместе</span></a>
+        <a class="memory" href="assets/photos/IMG_3331.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_3331.jpg" alt="Семейное фото 33" loading="lazy" decoding="async"><span>новое фото</span></a>
+        <a class="memory" href="assets/photos/IMG_3388.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_3388.jpg" alt="Семейное фото 34" loading="lazy" decoding="async"><span>любимый день</span></a>
+        <a class="memory" href="assets/photos/IMG_3418.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_3418.jpg" alt="Семейное фото 35" loading="lazy" decoding="async"><span>прогулка</span></a>
+        <a class="memory" href="assets/photos/IMG_3441.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_3441.jpg" alt="Семейное фото 36" loading="lazy" decoding="async"><span>память о поездке</span></a>
+        <a class="memory" href="assets/photos/IMG_8046.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8046.jpg" alt="Семейное фото 37" loading="lazy" decoding="async"><span>теплый взгляд</span></a>
+        <a class="memory" href="assets/photos/IMG_8047.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8047.jpg" alt="Семейное фото 38" loading="lazy" decoding="async"><span>маленькая радость</span></a>
+        <a class="memory" href="assets/photos/IMG_8048.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8048.jpg" alt="Семейное фото 39" loading="lazy" decoding="async"><span>все вместе</span></a>
+        <a class="memory" href="assets/photos/IMG_8049.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8049.jpg" alt="Семейное фото 40" loading="lazy" decoding="async"><span>объятия</span></a>
+        <a class="memory" href="assets/photos/IMG_8050.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8050.jpg" alt="Семейное фото 41" loading="lazy" decoding="async"><span>дорога</span></a>
+        <a class="memory" href="assets/photos/IMG_8051.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8051.jpg" alt="Семейное фото 42" loading="lazy" decoding="async"><span>семейный портрет</span></a>
+        <a class="memory" href="assets/photos/IMG_8052.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8052.jpg" alt="Семейное фото 43" loading="lazy" decoding="async"><span>солнечный день</span></a>
+        <a class="memory" href="assets/photos/IMG_8053.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8053.jpg" alt="Семейное фото 44" loading="lazy" decoding="async"><span>семейный обед</span></a>
+        <a class="memory" href="assets/photos/IMG_8054.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8054.jpg" alt="Семейное фото 45" loading="lazy" decoding="async"><span>родные лица</span></a>
+        <a class="memory" href="assets/photos/IMG_8055.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8055.jpg" alt="Семейное фото 46" loading="lazy" decoding="async"><span>счастливый кадр</span></a>
+        <a class="memory" href="assets/photos/IMG_8056.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8056.jpg" alt="Семейное фото 47" loading="lazy" decoding="async"><span>праздник</span></a>
+        <a class="memory" href="assets/photos/IMG_8057.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8057.jpg" alt="Семейное фото 48" loading="lazy" decoding="async"><span>фото на память</span></a>
+        <a class="memory" href="assets/photos/IMG_8058.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8058.jpg" alt="Семейное фото 49" loading="lazy" decoding="async"><span>поездка</span></a>
+        <a class="memory" href="assets/photos/IMG_8059.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8059.jpg" alt="Семейное фото 50" loading="lazy" decoding="async"><span>мама и дом</span></a>
+        <a class="memory" href="assets/photos/IMG_8060.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8060.jpg" alt="Семейное фото 51" loading="lazy" decoding="async"><span>важный момент</span></a>
+        <a class="memory" href="assets/photos/IMG_8061.jpg" target="_blank" rel="noopener"><img src="assets/photos/IMG_8061.jpg" alt="Семейное фото 52" loading="lazy" decoding="async"><span>любимое фото</span></a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Письмо внутри сайта</h2>
+        <p class="note">Небольшой текст делает подарок личным: не только фотографии, но и слова, которые хочется сохранить.</p>
+      </div>
+
+      <div class="letter">
+        <div class="paper">
+          <p>Мама, я часто не говорю это вслух, но многое хорошее во мне появилось благодаря тебе.</p>
+          <p>Спасибо за тепло, за терпение, за веру, за дом, куда всегда хочется возвращаться. Этот маленький сайт — мой способ собрать наши семейные моменты в одно место.</p>
+          <p>Пусть здесь будут фотографии с мужем, дочкой, сыном и всеми, кто тебя любит. Ты — центр нашей семьи и самый родной человек.</p>
+        </div>
+
+        <div class="superpowers">
+          <div class="power"><span class="dot" style="--color: var(--rose)"></span> Любовь</div>
+          <div class="power"><span class="dot" style="--color: var(--green)"></span> Мудрость</div>
+          <div class="power"><span class="dot" style="--color: var(--blue)"></span> Поддержка</div>
+          <div class="power"><span class="dot" style="--color: var(--gold)"></span> Тепло дома</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="ending">
+        <div>
+          <h2>Финальный экран</h2>
+          <p>Мама, это все про тебя и про нас рядом с тобой. Про дом, который ты создала, про людей, которых ты держишь вместе, и про любовь, которую не всегда получается сказать вслух. Спасибо тебе. От твоего сына.</p>
+        </div>
+        <div class="closing-grid">
+          <a class="closing-photo" href="assets/photos/IMG_8062.jpg" target="_blank" rel="noopener" aria-label="Открыть финальное фото">
+            <img src="assets/photos/IMG_8062.jpg" alt="Финальное семейное фото" loading="lazy" decoding="async">
+            <span>Финальное фото<small>мама крупным планом</small></span>
+          </a>
+          <a class="closing-photo" href="assets/photos/IMG_8063.jpg" target="_blank" rel="noopener" aria-label="Открыть фото мамы и сына">
+            <img src="assets/photos/IMG_8063.jpg" alt="Фото мамы и сына" loading="lazy" decoding="async">
+            <span>Мама и сын<small>последняя подпись от тебя</small></span>
+          </a>
+          <a class="closing-photo" href="assets/photos/IMG_8064.jpg" target="_blank" rel="noopener" aria-label="Открыть фото всей семьи">
+            <img src="assets/photos/IMG_8064.jpg" alt="Фото всей семьи" loading="lazy" decoding="async">
+            <span>Вся семья<small>закрывающий общий кадр</small></span>
+          </a>
+          <a class="closing-photo" href="assets/photos/IMG_8065.jpg" target="_blank" rel="noopener" aria-label="Открыть любимое фото">
+            <img src="assets/photos/IMG_8065.jpg" alt="Любимое семейное фото" loading="lazy" decoding="async">
+            <span>Любимое фото<small>самое теплое</small></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>С любовью и благодарностью.</span>
+      <span>Ровно 56 фотографий: 18 + 10 + 24 + 4.</span>
+    </footer>
+  </main>
+</body>
+</html>
